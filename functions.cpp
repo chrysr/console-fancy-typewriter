@@ -7,7 +7,6 @@ struct winsize size;
 
 void init(){
     ioctl(STDOUT_FILENO,TIOCGWINSZ,&size);
-    size.ws_col-=2;
     col["red"]=Red;
     col["black"]=Black;
     col["green"]=Green;
@@ -16,6 +15,7 @@ void init(){
     col["purple"]=Purple;
     col["cyan"]=Cyan;
     col["white"]=White;
+    col["colorful"]=colorful;
 
     a.str[0]="        ***        ";
     a.str[1]="       ** **       ";
@@ -459,6 +459,11 @@ void usage(char** argv)
     std::cout<<"   -vertical             Prints everything in one line *(Note this might mess up the output depending on your screen size"<<std::endl;
     std::cout<<"   -txt <your text here> The text you want to print with the program"<<std::endl;
     std::cout<<"   -color <colorname>    Prints output (letters) with color"<<std::endl;
+    std::cout<<"   -s0                   Instant Print"<<std::endl;
+    std::cout<<"   -s1                   Slower than s0 print"<<std::endl;
+    std::cout<<"   -s2                   Slower than s1 print"<<std::endl;
+    std::cout<<"   -s3                   Slower than s2 print"<<std::endl;
+    std::cout<<"   -s4                   Slower than s3 print"<<std::endl;
     std::cout<<"      "<<Red<<"red"<<std::endl; 
     std::cout<<"      "<<Black<<"black"<<std::endl;
     std::cout<<"      "<<Green<<"green"<<std::endl;
@@ -467,10 +472,10 @@ void usage(char** argv)
     std::cout<<"      "<<Purple<<"purple"<<std::endl;
     std::cout<<"      "<<Cyan<<"cyan"<<std::endl;
     std::cout<<"      "<<White<<"white"<<std::endl<<reset; 
-    std::cout<<"Default is: "<<argv[0]<<" -color red (will fit max number of letters in each line)"<<std::endl;
+    std::cout<<"Default is: "<<argv[0]<<" -s2 -color red (will fit max number of letters in each line)"<<std::endl;
     return;
 }
-void params(char** argv,int argc,bool& vertical,string& input,string& color)
+void params(char** argv,int argc,bool& vertical,string& input,string& color,int& speed)
 {
     for(int i=1;i<argc;i++)
     {
@@ -480,34 +485,30 @@ void params(char** argv,int argc,bool& vertical,string& input,string& color)
             input=argv[i+1];
         else if(strcmp(argv[i],"-color")==0)
             color=col[argv[i+1]];
+        else if(strcmp(argv[i],"-s0")==0)
+            speed=0;
+        else if(strcmp(argv[i],"-s1")==0)
+            speed=5;
+        else if(strcmp(argv[i],"-s2")==0)
+            speed=15;
+        else if(strcmp(argv[i],"-s3")==0)
+            speed=35;
+        else if(strcmp(argv[i],"-s4")==0)
+            speed=60;
     }
 }
 
-string getnextword(string input,string previous)
+string getnextword(string input,int& place)
 {
     string rslt="";
-    int i=input.find(previous);
-    if(i==std::string::npos||previous=="")
-    {
-        //std::cout<<"here"<<std::endl;
-        i=0;
-    }
-    else
-    {
-        for(;i<input.length();i++)
-        {
-            if(input[i]==' ')
-                break;
-        }
-        i++;
-    }
-    //std::cout<<previous<<" "<<i<<std::endl;
+    int i=place;
     for(;i<input.length();i++)
     {
-        if(input[i]==' ')
+        if(input[i]==' ')            
             break;
         rslt+=input[i];
     }
+    place=i+1;
     return rslt;
 }
 string printwordvertically(string str)

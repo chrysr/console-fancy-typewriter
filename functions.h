@@ -8,6 +8,7 @@
 #include <cstring>
 #include <sys/ioctl.h>
 #include <unistd.h>
+#include <time.h>
 
 using namespace std;
 #define reset "\033[0m"
@@ -19,6 +20,7 @@ using namespace std;
 #define Purple "\033[0;35m"        //Purple
 #define Cyan "\033[0;36m"          //Cyan
 #define White "\033[0;37m"         //White
+#define colorful "colorful"
 
  //Bold
 #define BBlack "\033[1;30m"        //Black
@@ -91,8 +93,8 @@ extern map<string,string> col;
 
 void init();
 void usage(char** argv);
-void params(char** argv,int argc,bool& vertical,string& input,string& color);
-string getnextword(string input,string previous);
+void params(char** argv,int argc,bool& vertical,string& input,string& color,int& speed);
+string getnextword(string input,int& place);
 string printwordvertically(string str);
 void printfit(vector<string> &lines,string tmp,int& remaining);
 string addto(string basic,string add);
