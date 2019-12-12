@@ -98,6 +98,9 @@ string getnextword(string input,int& place);
 string printwordvertically(string str);
 void printfit(vector<string> &lines,string tmp,int& remaining);
 string addto(string basic,string add);
+string refineinput(string input);
+void makecolorarray(vector<string> &clrs);
+
 
 
 

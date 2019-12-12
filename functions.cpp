@@ -626,3 +626,31 @@ string addto(string basic,string add)
     }
     return rslt;
 }
+string refineinput(string input)
+{
+    string refined="";
+    for(int i=0;i<input.length();i++)
+    {
+        //std::cout<<input[i]<<" "<<(int)input[i]<<std::endl;
+        if(input[i]=='\n'||(int)input[i]==32)
+        {
+            refined+=' ';
+            continue;
+        }
+        if(!table.count(input[i]))
+        {
+            continue;
+        }
+        refined+=input[i];
+    }
+    return refined;
+}
+void makecolorarray(vector<string> &clrs)
+{
+    for(map<string,string>::iterator it=col.begin();it!=col.end();++it)
+    {
+        if(it->first!="colorful")
+            clrs.push_back(it->first);
+    }
+    srand(time(NULL));
+}
