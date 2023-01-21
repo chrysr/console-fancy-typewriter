@@ -2,11 +2,11 @@
 letter a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,gamma,delta,theta,lamda,xi,pi,sigma,fi,psi,omega,space;
 map<char,letter> table;
 map<string,string> col;
-struct winsize size;
+struct winsize sizee;
         
 
 void init(){
-    ioctl(STDOUT_FILENO,TIOCGWINSZ,&size);
+    ioctl(STDOUT_FILENO,TIOCGWINSZ,&sizee);
     col["red"]=Red;
     col["black"]=Black;
     col["green"]=Green;
@@ -549,9 +549,9 @@ void printfit(vector<string> &lines,string str,int& remaining)
     {
         //does not fit in this line
         //either cut or new line
-        if(sum<=size.ws_col)
+        if(sum<=sizee.ws_col)
         {
-            remaining=size.ws_col;
+            remaining=sizee.ws_col;
             lines.push_back("");
             printfit(lines,str,remaining);
             //fit in a different line if i wanna
@@ -559,7 +559,7 @@ void printfit(vector<string> &lines,string str,int& remaining)
         else
         {
             int used=0;
-            if((double)remaining/(double)size.ws_col<=0.6)
+            if((double)remaining/(double)sizee.ws_col<=0.6)
             {
                 for(int i=0;i<str.length();i++)
                 {
@@ -577,7 +577,7 @@ void printfit(vector<string> &lines,string str,int& remaining)
                 for(int i=0;i<str.length();i++)
                 {
                     int sum=sumup(str.substr(used,(str.length()-used-i)));
-                    remaining=size.ws_col;
+                    remaining=sizee.ws_col;
                     if(sum<=remaining)
                     {
                         lines.push_back("");
